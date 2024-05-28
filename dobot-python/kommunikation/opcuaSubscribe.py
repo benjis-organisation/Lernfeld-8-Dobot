@@ -3,7 +3,7 @@ import random
 
 from paho.mqtt import client as mqtt_client
 
-broker = 'test.mosquitto.org'
+broker = '91.121.93.94'
 port = 1883
 topic = "temp/test/topic" 
 
