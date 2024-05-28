@@ -9,6 +9,11 @@ from colormath.color_diff import delta_e_cie2000
 
 app = Flask(__name__)
 
+def patch_asscalar(a):
+    return a.item()
+
+setattr(np, "asscalar", patch_asscalar)
+
 def get_requested_color(requested_color):
     return sRGBColor(*requested_color, is_upscaled=True)
 
