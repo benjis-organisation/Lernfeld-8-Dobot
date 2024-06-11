@@ -2,13 +2,14 @@ import cv2
 import time
 
 # Initialize the camera
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 # Create a window
 cv2.namedWindow('Open Camera', cv2.WINDOW_NORMAL)
 
 # Display the window for 10 seconds
 for _ in range(2):
+    # time.sleep(10)
     ret, frame = cap.read()
     if not ret:
         print("Failed to read frame")
@@ -36,5 +37,5 @@ cv2.imwrite('captured_image.jpg', frame)
 
 # Display the image
 cv2.imshow('Image', frame)
-cv2.waitKey(0)
+# cv2.waitKey(0)
 cv2.destroyAllWindows()
