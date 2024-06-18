@@ -7,7 +7,9 @@ from camera.Calculate_color import calculate_color
 from camera.Capture_an_image import *
 
 bot = Dobot('COM3')
+print("Kamera wird initialisiert")
 cap = initialize_camera()
+print("Kamera wurde initialisiert")
 
 print('Bot status:', 'connected' if bot.connected() else 'not connected')
 

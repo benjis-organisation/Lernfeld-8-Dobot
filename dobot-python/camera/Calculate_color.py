@@ -52,4 +52,4 @@ def calculate_color():
     return color_name
 
 setattr(np, "asscalar", patch_asscalar)
-print(calculate_color())
+# print(calculate_color())
