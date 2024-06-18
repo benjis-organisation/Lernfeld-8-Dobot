@@ -1,7 +1,6 @@
-# echo-server.py
 import socket
-import keyboard
-
+# import keyboard
+# import netifaces as ni
 
 class TCPServer:
     """TCP Socket Objekt für eine serverseitige TCP-Verbindung"""
@@ -40,35 +39,19 @@ class TCPServer:
             s.listen(2)
             print(f"Connection established on host {self.host} and port {self.port}")
             while True:
-                try:
-                    conn, addr = s.accept()
-                    with conn:
-                        print(f"Connected by {addr}")
-                        while True:
-                            data = conn.recv(2048)
-                            string = data.decode()
-                            print("Data send: " + string)
-                            if string == 'endServerConnection':
-                                self.setStatus(1)
-                            if not data:
-                                print("No data send. Ending connection.")
-                except KeyboardInterrupt:
-                    print("Server is shutting down...")
-                    s.close()
-                    break
-            with conn:
-                print(f"Connected by {addr}")
-                while True:
-                    data = conn.recv(2048)
-                    string = data.decode()
-                    print("Data send: " + string)
-                    if string == 'endServerConnection':
-                        self.setStatus(1)
-                    if not data:
-                        print("No data send. Ending connection.")
-                        conn.close()
-                        break
-                    conn.sendall(b'Server hat den Aufruf erhalten.')
+                conn, addr = s.accept()
+                with conn:
+                    print(f"Connected by {addr}")
+                    while True:
+                        data = conn.recv(2048)
+                        if not data:
+                            print("No data send. Ending connection.")
+                            break
+                        string = data.decode()
+                        print("Data send: " + string)
+                        if string == 'endServerConnection':
+                            self.setStatus(1)
+                        conn.sendall(b'Server hat den Aufruf erhalten.')
 
     def setStatus(self, status):
         self.status = status
@@ -77,18 +60,22 @@ class TCPServer:
         return str(self.status)
 
 def main():
-    server = TCPServer("192.168.163.185", 65432)
+    # IPV4_Adress = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr']
+    # server = TCPServer(IPV4_Adress, 65432)
+    server = TCPServer("192.168.255.44", 65432)
     #server.getHelp()
     print("""
     TCP Server initialisiert.
     """)
-    while True:
-        server.runConnection()
-        print("Server Status: " + str(server.getStatus()))
-        if server.getStatus() == '1':
-            print("Exit Programm...")
-            break
-
+    try:
+        while True:
+            server.runConnection()
+            if server.getStatus() == '1':
+                print("Server Status: " + str(server.getStatus()))
+                print("Exit Programm...")
+                break
+    except KeyboardInterrupt:
+        print("Server is shutting down...")
 
 if __name__ == "__main__":
     main()
