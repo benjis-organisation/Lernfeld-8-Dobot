@@ -11,8 +11,8 @@ def fetch_awattar_prices():
         start = datetime.fromtimestamp(item['start_timestamp'] / 1000)
         end = datetime.fromtimestamp(item['end_timestamp'] / 1000)
         prices.append({
-            "Start": start,
-            "End": end,
+            "Start": start.strftime('%Y-%m-%d %H:%M:%S'),
+            "End": end.strftime('%Y-%m-%d %H:%M:%S'),
             "Marketprice": item['marketprice']
         })
         
