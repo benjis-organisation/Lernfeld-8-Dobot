@@ -1,5 +1,6 @@
 import pymongo
 from datetime import datetime
+import json
 
 # Verbindung zur MongoDB herstellen
 client = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -24,13 +25,14 @@ def get_last_color():
     return None
 
 def insert_data(data):
-    if "humidity" in data:
-        humidity = {"current_date": datetime.now(), "humidity": data["humidity"]}
-        humidityCollection.insert_one(humidity)
-
-    if "temperature" in data:
-        temperature = {"current_date": datetime.now(), "temperature": data["temperature"]}
-        temperatureCollection.insert_one(temperature)
+    if "sensor_data" in data:
+        sensor_data = json.loads(data["sensor_data"])
+        if "humidity" in sensor_data:
+            humidity = {"current_date": datetime.now(), "humidity": sensor_data["humidity"]}
+            humidityCollection.insert_one(humidity)
+        if "temperature" in sensor_data:
+            temperature = {"current_date": datetime.now(), "temperature": sensor_data["temperature"]}
+            temperatureCollection.insert_one(temperature)
 
     if "color_detected" in data:
         new_color_hex = color_to_hex.get(data["color_detected"], None)
