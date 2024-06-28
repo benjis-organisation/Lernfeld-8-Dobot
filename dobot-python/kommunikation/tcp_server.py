@@ -11,7 +11,7 @@ class TCPServer:
 
     # Initialisierung des Servers
     def __init__(self, port):
-        self.host = socket.gethostbyname(socket.gethostname())  # Automatisch die lokale IP holen
+        self.host = socket.gethostbyname(socket.gethostname())
         self.port = port
         self.status = 0
 
@@ -26,7 +26,7 @@ class TCPServer:
                 with conn:
                     print(f"Connected by {addr}")
                     while True:
-                        data = conn.recv(2048)
+                        data = conn.recv(4096)
                         if not data:
                             print("No data sent. Ending connection.")
                             break

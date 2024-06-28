@@ -51,7 +51,7 @@ class TCPClient:
 # Hauptfunktion
 async def main():
     # IP Adresse des Servers muss angepasst werden
-    url = "opc.tcp://192.168.82.236:4840"
+    url = "opc.tcp://localhost:4840"
     namespace = "http://examples.freeopcua.github.io"
 
     client = Client(url=url, timeout=10)
@@ -82,16 +82,16 @@ async def main():
         try:
             with open(color_file_path, 'r') as file:
                 color_data = json.load(file)
-                print(f"Read color data from file: {color_data}")  # Debug output
+                print(f"Read color data from file: {color_data}")
                 data_to_send["color_detected"] = color_data["color_detected"]
         except FileNotFoundError:
-            print(f"Color file not found at path: {color_file_path}")  # Debug output
+            print(f"Color file not found at path: {color_file_path}")
             data_to_send["color_detected"] = "unknown"
         except json.JSONDecodeError as e:
-            print(f"Error decoding JSON from color file: {e}")  # Debug output
+            print(f"Error decoding JSON from color file: {e}")
             data_to_send["color_detected"] = "unknown"
         except KeyError:
-            print(f"Key 'color_detected' not found in the color data")  # Debug output
+            print(f"Key 'color_detected' not found in the color data")
             data_to_send["color_detected"] = "unknown"
 
         print("Data to send:", data_to_send)
@@ -99,7 +99,7 @@ async def main():
         await tcp_client.send_data(data_to_send)
 
         if not first_run:
-            # Entfernen Sie die awattar_prices aus dem JSON nach dem ersten Senden
+            # Entfernet die awattar_prices aus dem JSON nach dem ersten Senden
             data_to_send.pop("awattar_prices", None)
 
         await asyncio.sleep(5)
