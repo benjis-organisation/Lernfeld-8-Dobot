@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 from lib.interface import Interface
 
+# Funktion, um das Homing durchzuführen
 def perform_homing():
     bot = Interface('COM3')
 

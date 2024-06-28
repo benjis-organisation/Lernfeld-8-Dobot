@@ -12,9 +12,11 @@ basic_colors = {
     "yellow": (1, 1, 0),
 }
 
+# Funktion zum Umwandeln eines Numpy-Arrays in einen Skalarwert (Ein Skalarwert kann einl integer oder ein float sein)
 def patch_asscalar(a):
     return a.item()
 
+# Funktion, um die naechstgelegene definierte Grundfarbe zu finden
 def get_closest_color(requested_color):
     min_colors = {}
     requested_color = convert_color(sRGBColor(*requested_color, is_upscaled=True), LabColor)
@@ -26,6 +28,7 @@ def get_closest_color(requested_color):
 
     return min_colors[min(min_colors.keys())]
 
+# Funktion zur Berechnung der Durchschnittsfarbe eines Bildausschnitts
 def calculate_color():
     frame = cv2.imread('captured_image.jpg')
     if frame is None:
@@ -52,4 +55,3 @@ def calculate_color():
     return color_name
 
 setattr(np, "asscalar", patch_asscalar)
-# print(calculate_color())

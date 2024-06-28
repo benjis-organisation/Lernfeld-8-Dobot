@@ -12,14 +12,15 @@ temperatureCollection = db["Temperatur"]
 colorCollection = db["Farbwerte"]
 energyCollection = db["Energiekosten"]
 
+# Funktion, um alle Daten aus einer Collection zu lesen
 def read_collection(collection):
     return list(collection.find({}))
 
+# Funktion, um alle Daten aus der Datenbank zu lesen und als JSON-String zurückzugeben
 def get_all_data_as_json():
     
     global energiekosten_gesendet
     
-    # Daten aus jeder Collection lesen
     humidity_data = read_collection(humidityCollection)
     temperature_data = read_collection(temperatureCollection)
     color_data = read_collection(colorCollection)
@@ -32,7 +33,6 @@ def get_all_data_as_json():
     last_temperature_data = temperature_data[-1] if temperature_data else None
     last_color_data = color_data[-1] if color_data else None
 
-    # Alle Daten in einem Dictionary zusammenfassen
     all_data = {
         "Feuchtigkeit": last_humidity_data,
         "Temperatur": last_temperature_data,
@@ -40,5 +40,4 @@ def get_all_data_as_json():
         "Energiekosten": energy_data
     }
 
-    # Das Dictionary in einen JSON-String konvertieren und zurückgeben
     return json.dumps(all_data, default=json_util.default)

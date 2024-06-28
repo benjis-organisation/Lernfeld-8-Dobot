@@ -6,13 +6,16 @@ sys.path.insert(0, os.path.abspath('.'))
 
 from datenbank.write_database import insert_data
 
+# Klasse für den TCP Server
 class TCPServer:
 
+    # Initialisierung des Servers
     def __init__(self, port):
         self.host = socket.gethostbyname(socket.gethostname())  # Automatisch die lokale IP holen
         self.port = port
         self.status = 0
 
+    # Funktion, um die Verbindung zu starten
     def runConnection(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((self.host, self.port))
@@ -35,12 +38,15 @@ class TCPServer:
                             print("Received non-JSON data:", data.decode())
                         conn.sendall(b"Server received the data.")
 
+    # Funktion, um den Status zu setzen
     def setStatus(self, status):
         self.status = status
 
+    # Funktion, um den Status zu holen
     def getStatus(self):
         return str(self.status)
 
+# Hauptfunktion
 def main():
     server = TCPServer(65432)
     print(f"Server startet auf {server.host}:{server.port}")

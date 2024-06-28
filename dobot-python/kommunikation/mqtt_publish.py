@@ -8,10 +8,13 @@ from datenbank.read_database import get_all_data_as_json
 
 broker="test.mosquitto.org"
 port=1883
+
+# Funktion, die aufgerufen wird, wenn die Daten erfolgreich publiziert wurden
 def on_publish(client, userdata, mid, reason_code, properties):
     print("data published \n")
     pass
 
+# Funktion, die aufgerufen wird, wenn die Verbindung zum Broker hergestellt wurde
 def on_connect(mqttc, obj, flags, reason_code, properties):
     print("reason_code: " + str(reason_code)) 
 

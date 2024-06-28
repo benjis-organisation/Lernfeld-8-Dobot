@@ -10,7 +10,6 @@ temperatureCollection = db["Temperatur"]
 colorCollection = db["Farbwerte"]
 energyCollection = db["Energiekosten"]
 
-# Mapping der Farbnamen zu Hexcodes
 color_to_hex = {
     "red": "#FF0000",
     "green": "#00FF00",
@@ -18,12 +17,14 @@ color_to_hex = {
     "yellow": "#FFFF00"
 }
 
+# Funktion, um die letzte gespeicherte Farbe aus der Datenbank zu lesen
 def get_last_color():
     last_color = colorCollection.find_one(sort=[("current_date", pymongo.DESCENDING)])
     if last_color:
         return last_color["hex_code"]
     return None
 
+# Funktion, um Daten in die Datenbank einzufuegen
 def insert_data(data):
     if "sensor_data" in data:
         sensor_data = json.loads(data["sensor_data"])

@@ -10,7 +10,7 @@ from homing import perform_homing
 
 perform_homing()
 
-# Definiere den Pfad, um die Datei eine Ebene höher zu speichern
+# Definiert den Pfad, um die Datei eine Ebene höher zu speichern
 color_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'color_detected.json')
 
 bot = Dobot('COM3')
@@ -20,10 +20,11 @@ print("Kamera wurde initialisiert")
 
 print('Bot status:', 'connected' if bot.connected() else 'not connected')
 
-# Wird die Position noch benötigt? Drin wegen Fehlermeldung.
+# Wird die Position noch benoetigt? Drin wegen Fehlermeldung.
 pose = bot.get_pose()
 print('Position:', pose)
 
+# Funktion, um den Roboter zu bewegen und zu saugen
 def move_and_suck(bot, positions, suck):
     for position in positions:
         bot.move_to(*position)
@@ -70,7 +71,7 @@ try:
             print(f"Farbe unbekannt: {color_name}")
             move_and_suck(bot, [(-90, 50, 45, 0.5)], (False, False))
 
-        # Schreiben der erkannten Farbe in eine Datei eine Ebene höher
+        # Schreiben der erkannten Farbe in eine Datei eine Ebene hoeher
         with open(color_file_path, 'w') as file:
             json.dump({"color_detected": color_name}, file)
 
