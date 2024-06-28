@@ -7,9 +7,7 @@ from asyncua import Client
 from datetime import datetime
 from awattar_api import fetch_awattar_prices
 
-color_file_path = os.path.join(os.path.dirname(
-    os.path.abspath(__file__)), 'color_detected.json')
-
+color_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'color_detected.json')
 
 def datetime_converter(o):
     if isinstance(o, datetime):
@@ -64,7 +62,7 @@ async def main():
     print(f"Namespace Index for '{namespace}': {nsidx}")
 
     # IP Adresse des Servers muss angepasst werden
-    tcp_client = TCPClient("192.168.82.185", 65432)
+    tcp_client = TCPClient("192.168.0.34", 65432)
 
     awattar_prices = fetch_awattar_prices()
     data_to_send = {
@@ -85,8 +83,16 @@ async def main():
         try:
             with open(color_file_path, 'r') as file:
                 color_data = json.load(file)
+                print(f"Read color data from file: {color_data}")  # Debug output
                 data_to_send["color_detected"] = color_data["color_detected"]
         except FileNotFoundError:
+            print(f"Color file not found at path: {color_file_path}")  # Debug output
+            data_to_send["color_detected"] = "unknown"
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON from color file: {e}")  # Debug output
+            data_to_send["color_detected"] = "unknown"
+        except KeyError:
+            print(f"Key 'color_detected' not found in the color data")  # Debug output
             data_to_send["color_detected"] = "unknown"
 
         print("Data to send:", data_to_send)
