@@ -17,6 +17,9 @@ color_to_hex = {
     "yellow": "#FFFF00"
 }
 
+def format_date(dt):
+    return {"$date": dt.isoformat() + "Z"}
+
 # Funktion, um die letzte gespeicherte Farbe aus der Datenbank zu lesen
 def get_last_color():
     last_color = colorCollection.find_one(sort=[("current_date", pymongo.DESCENDING)])
@@ -44,8 +47,8 @@ def insert_data(data):
     if "awattar_prices" in data:
         for price in data["awattar_prices"]:
             energy = {
-                "start": price["Start"],
-                "end": price["End"],
+                "start": format_date(datetime.strptime(price["Start"], "%Y-%m-%d %H:%M:%S")),
+                "end": format_date(datetime.strptime(price["End"], "%Y-%m-%d %H:%M:%S")),
                 "marketprice": price["Marketprice"]
             }
             energyCollection.insert_one(energy)
