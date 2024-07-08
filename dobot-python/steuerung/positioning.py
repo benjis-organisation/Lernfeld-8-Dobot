@@ -8,8 +8,6 @@ from camera.Calculate_color import calculate_color
 from camera.Capture_an_image import *
 from homing import perform_homing
 
-perform_homing()
-
 # Definiert den Pfad, um die Datei eine Ebene höher zu speichern
 color_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'color_detected.json')
 
@@ -52,6 +50,8 @@ color_endpositions = {
 }
 
 try:
+    perform_homing()
+    
     for i in range(1, len(color_positions) + 1):
         print(f"Würfel Nummer {i}") # F wird für die Variable i eingesetzt
         move_and_suck(bot, color_positions[i], (True, True))
